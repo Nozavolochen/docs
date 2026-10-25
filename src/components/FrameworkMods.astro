@@ -1,0 +1,37 @@
+---
+import data from "../data/framework-mods.json";
+
+const updated = data.generatedAt.slice(0, 10);
+---
+
+<p>
+  Every mod below declares the framework as a Nexus requirement, so your mod
+  manager offers to install it. List refreshed weekly from Nexus Mods, last
+  update {updated}.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Mod</th>
+      <th>Summary</th>
+      <th>Version</th>
+      <th>Downloads</th>
+      <th>Endorsements</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    {data.mods.map((mod) => (
+      <tr>
+        <td>
+          <a href={mod.url}>{mod.name}</a>
+        </td>
+        <td>{mod.summary}</td>
+        <td>{mod.version}</td>
+        <td>{mod.downloads.toLocaleString("en-US")}</td>
+        <td>{mod.endorsements.toLocaleString("en-US")}</td>
+        <td>{mod.updatedAt.slice(0, 10)}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

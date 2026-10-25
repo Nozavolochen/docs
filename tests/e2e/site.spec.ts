@@ -5,13 +5,23 @@ import { test, expect } from "@playwright/test";
 test("homepage introduces the framework", async ({ page }) => {
   await page.goto("./");
   await expect(
-    page.getByRole("heading", { name: "Nozavolochen" }),
+    page.getByRole("heading", { name: "Nozavolochen", exact: true }),
   ).toBeVisible();
   await page
     .getByRole("link", { name: /install/i })
     .first()
     .click();
   await expect(page).toHaveURL(/\/users\/install\/$/);
+});
+
+test("homepage lists mods built on the framework", async ({ page }) => {
+  await page.goto("./");
+  await expect(
+    page.getByRole("heading", { name: "Mods built on Nozavolochen" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Bigger Item Grids" }),
+  ).toHaveAttribute("href", /nexusmods\.com\/nomanssky\/mods\/4697/);
 });
 
 test("spec reference loads directly", async ({ page }) => {
