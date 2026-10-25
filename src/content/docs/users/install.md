@@ -5,20 +5,16 @@ description: Install the Nozavolochen framework and mods.
 
 ## Framework
 
-The [framework download](https://www.nexusmods.com/games/nomanssky/mods/4700?tab=files) is an archive containing `Binaries/xinput9_1_0.dll`.
+The [framework download](https://www.nexusmods.com/games/nomanssky/mods/4700?tab=files) is an archive containing flat `xinput9_1_0.dll` at the root.
 
 #### Installing with a mod manager
 
-- [Amethyst](https://github.com/ChrisDKN/Amethyst-Mod-Manager): install it, then right-click the mod and select **Enable
-  Root Folder install** so it deploys relative to the game folder.
-- [Vortex](https://www.nexusmods.com/vortex): the archive is picked up as a Binaries mod (the No Man's Sky
-  extension moves any package containing a `.dll` into `Binaries/`) and
-  deploys with no extra steps.
+- [Vortex](https://www.nexusmods.com/vortex): installs with no extra steps (the No Man's Sky extension routes `.dll` files into `Binaries/`).
+- [Amethyst](https://github.com/ChrisDKN/Amethyst-Mod-Manager): do not use Root Folder install. Set a one-time Routing Rule (Data tab > Routing Rules at the bottom near the Search bar > Add: Destinations `Binaries`, Extensions `.dll` > Save) then deploy.
 
 #### Manual install
 
-- Extract `xinput9_1_0.dll` from the archives `Binaries/`
-  folder into the game's `Binaries/` folder.
+- Copy `xinput9_1_0.dll` from the archive into the game's `Binaries/` folder.
 
 ## Mods
 
