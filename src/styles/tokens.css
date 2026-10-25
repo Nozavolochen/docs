@@ -1,0 +1,44 @@
+/* Nozavolochen tokens: NMS-inspired deep-space canvas, warm off-white
+   text, NMS orange primary. Display/body typefaces are the OFL-licensed
+   NMS Universal Font (NMSGeoSans / NMSFuturaProBook), self-hosted under
+   public/fonts. See https://github.com/NMSCD/No-Mans-Sky-Universal-Font */
+
+@font-face {
+  font-family: "NMSGeoSans";
+  src: url("../assets/fonts/NMSGeoSans_Kerned.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NMSFuturaProBook";
+  src: url("../assets/fonts/NMSFuturaProBook_Kerned.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --nms-background: #0b0e14;
+  --nms-surface: #141922;
+  --nms-raised: #1c2330;
+  --nms-text: #f2f1ec;
+  --nms-muted: #b9bcc2;
+  --nms-accent: #ff8400;
+  --nms-accent-contrast: #0b0e14;
+  --nms-danger: #c8102e;
+  --nms-border: #2c3442;
+  --nms-focus: #ffbe78;
+
+  --nms-font-display:
+    "NMSGeoSans", "Futura", "Century Gothic", system-ui, sans-serif;
+  --nms-font-body:
+    "NMSFuturaProBook", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --nms-space: 1rem;
+  --nms-space-lg: 2.5rem;
+  --nms-max-width: 68rem;
+  --nms-reading-width: 48rem;
+}

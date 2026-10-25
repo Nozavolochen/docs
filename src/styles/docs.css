@@ -1,0 +1,54 @@
+/* Documentation reading adjustments on top of Starlight defaults. */
+
+@import "./tokens.css";
+
+:root {
+  --sl-content-width: 48rem;
+  /* Share the NMS display font with the custom pages. */
+  --sl-font: var(--nms-font-display), var(--sl-font-system);
+}
+
+body {
+  font-family: var(--nms-font-body);
+}
+
+/* Headings: NMS-style uppercase with wide tracking. */
+.sl-markdown-content h1,
+.sl-markdown-content h2 {
+  font-family: var(--nms-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+/* Dark theme: deep-space canvas, NMS orange accent. accent-high keeps
+   4.5:1 contrast on the dark canvas; accent-low is a dark orange tint. */
+:root[data-theme="dark"] {
+  --sl-color-bg: var(--nms-background);
+  --sl-color-bg-nav: var(--nms-surface);
+  --sl-color-bg-sidebar: var(--nms-surface);
+  --sl-color-hairline: var(--nms-border);
+  --sl-color-hairline-light: var(--nms-border);
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #f2f1ec;
+  --sl-color-gray-2: #e6e2d6;
+  --sl-color-gray-3: #b9bcc2;
+  --sl-color-text: #f2f1ec;
+  --sl-color-accent: #ff8400;
+  --sl-color-accent-high: #ffb35c;
+  --sl-color-accent-low: #3a2408;
+}
+
+/* Light theme: Starlight light surfaces, deep orange accent for
+   contrast on white. */
+:root[data-theme="light"] {
+  --sl-color-accent: #b35c00;
+  --sl-color-accent-high: #8a4700;
+  --sl-color-accent-low: #ffe3c2;
+}
+
+/* Current-page sidebar item: black text on NMS orange in both themes. */
+:root[data-theme="dark"] .sidebar-content a[aria-current="page"],
+:root[data-theme="light"] .sidebar-content a[aria-current="page"] {
+  color: #0b0e14;
+  background-color: #ff8400;
+}
