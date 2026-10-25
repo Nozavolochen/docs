@@ -1,37 +1,37 @@
 {
   "frameworkModId": 4700,
   "gameDomain": "nomanssky",
-  "generatedAt": "2026-10-25T17:51:53.791Z",
+  "generatedAt": "2026-10-25T20:18:40.836Z",
   "mods": [
     {
       "modId": 4697,
       "name": "Bigger Item Grids and Smaller Inventory Slots",
       "summary": "See more items on screen in the inventory and Crafting/Transfer pop-ups with optional Intro and Mod warning skip.",
       "version": "0.2.0",
-      "downloads": 59,
+      "downloads": 74,
       "endorsements": 1,
       "updatedAt": "2026-10-25T17:27:02Z",
       "url": "https://www.nexusmods.com/nomanssky/mods/4697"
-    },
-    {
-      "modId": 4706,
-      "name": "Intro Skip",
-      "summary": "Skips the No Man's Sky startup logos.",
-      "version": "0.1.0",
-      "downloads": 2,
-      "endorsements": 0,
-      "updatedAt": "2026-10-25T17:28:28Z",
-      "url": "https://www.nexusmods.com/nomanssky/mods/4706"
     },
     {
       "modId": 4707,
       "name": "Skip Mod Warning",
       "summary": "Skips the No Man's Sky \"mods detected\" warning dialog.",
       "version": "0.1.0",
-      "downloads": 0,
+      "downloads": 12,
       "endorsements": 0,
       "updatedAt": "2026-10-25T17:28:56Z",
       "url": "https://www.nexusmods.com/nomanssky/mods/4707"
+    },
+    {
+      "modId": 4706,
+      "name": "Intro Skip",
+      "summary": "Skips the No Man's Sky startup logos.",
+      "version": "0.1.0",
+      "downloads": 8,
+      "endorsements": 0,
+      "updatedAt": "2026-10-25T17:28:28Z",
+      "url": "https://www.nexusmods.com/nomanssky/mods/4706"
     }
   ]
 }
