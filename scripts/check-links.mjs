@@ -37,6 +37,63 @@ async function collectHtml(dir, out = []) {
   return out;
 }
 
+// The llms.txt outputs are generated from these same pages, so a link inside
+// them has to resolve to something the build produced.
+async function collectLlmsFiles() {
+  const out = [];
+  for (const name of ["llms.txt", "llms-full.txt", "llms-small.txt"]) {
+    const full = join(dist, name);
+    try {
+      if ((await stat(full)).isFile()) out.push(full);
+      else throw new Error("not a file");
+    } catch {
+      console.error(`llms: missing ${name}`);
+      failures += 1;
+    }
+  }
+  try {
+    for (const entry of await readdir(join(dist, "_llms-txt"))) {
+      if (entry.endsWith(".txt")) out.push(join(dist, "_llms-txt", entry));
+    }
+  } catch {
+    // No custom sets are configured.
+  }
+  return out;
+}
+
+// Markdown links resolve against the base, so a bare path such as
+// "authors/spec/" is read as /docs/authors/spec/ while an outside URL keeps
+// its own origin and is skipped. Absolute links to the published site are
+// checked like relative ones.
+function extractMarkdownLinks(text, origin) {
+  const targets = [];
+  for (const match of text.matchAll(/\]\(([^)\s]+)\)/g)) {
+    let url;
+    try {
+      url = new URL(match[1], `https://example.invalid${BASE}/llms.txt`);
+    } catch {
+      continue;
+    }
+    if (url.origin !== "https://example.invalid" && url.origin !== origin) {
+      continue;
+    }
+    targets.push({ raw: match[1], page: url.pathname });
+  }
+  return targets;
+}
+
+// The published origin comes from the generated sitemap, so the checker does
+// not carry a second copy of the `site` option.
+async function siteOrigin() {
+  try {
+    const xml = await readFile(join(dist, "sitemap-index.xml"), "utf8");
+    const loc = /<loc>([^<]+)<\/loc>/.exec(xml);
+    return loc ? new URL(loc[1]).origin : null;
+  } catch {
+    return null;
+  }
+}
+
 function extractTargets(html) {
   const targets = [];
   const attrRe = /(?:href|src)="([^"]*)"/g;
@@ -106,7 +163,6 @@ async function assetExists(pagePath) {
 const files = await collectHtml(dist);
 const idCache = new Map();
 let failures = 0;
-
 for (const file of files) {
   const html = await readFile(file, "utf8");
   const display = file.slice(dist.length);
@@ -158,10 +214,40 @@ for (const file of files) {
   }
 }
 
+const llmsFiles = await collectLlmsFiles();
+const origin = await siteOrigin();
+
+for (const file of llmsFiles) {
+  const display = file.slice(dist.length);
+  for (const { raw, page } of extractMarkdownLinks(
+    await readFile(file, "utf8"),
+    origin,
+  )) {
+    const internal = stripBase(page);
+    if (internal === null) {
+      console.error(`${display}: link ${raw} escapes the ${BASE} base`);
+      failures += 1;
+      continue;
+    }
+    const last = internal.split("/").pop() ?? "";
+    if (last.includes(".")) {
+      if (!(await assetExists(internal))) {
+        console.error(`${display}: missing asset ${raw}`);
+        failures += 1;
+      }
+    } else if (!(await pageExists(internal))) {
+      console.error(`${display}: missing page ${raw}`);
+      failures += 1;
+    }
+  }
+}
+
 if (failures > 0) {
   console.error(
-    `check-links: ${failures} failure(s) in ${files.length} page(s)`,
+    `check-links: ${failures} failure(s) in ${files.length} page(s) and ${llmsFiles.length} llms file(s)`,
   );
   process.exit(1);
 }
-console.log(`check-links: OK (${files.length} pages)`);
+console.log(
+  `check-links: OK (${files.length} pages, ${llmsFiles.length} llms files)`,
+);
