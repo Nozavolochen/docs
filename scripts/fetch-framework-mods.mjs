@@ -32,12 +32,40 @@ const DEPENDENTS_QUERY = `query FrameworkDependents($gameId: ID!, $modId: ID!, $
 
 const DETAILS_QUERY = `query ModDetails($ids: [CompositeDomainWithIdInput!]!) {
   legacyModsByDomain(ids: $ids) {
-    nodes { modId name summary version downloads endorsements updatedAt status }
+    nodes { modId name summary version downloads endorsements updatedAt status description }
   }
 }`;
 
+// Nexus has no source field: a mod's repository only exists as a link in its
+// description (BBCode, with line breaks as <br />). Descriptions link other
+// GitHub projects too - build tools, dependencies - so only a link on a line
+// that labels it as the source is trusted. Guessing would put the wrong
+// repository next to the mod.
+const SOURCE_LABEL = /\b(?:source|sources|repository|repo)\s*[:\-]/i;
+const IGNORED_REPOS = new Set(["nozavolochen/framework", "nozavolochen/docs"]);
+
 export function modUrl(gameDomain, modId) {
   return `https://www.nexusmods.com/${gameDomain}/mods/${modId}`;
+}
+
+// First labelled GitHub repository link in a Nexus description, or null.
+export function extractSource(description) {
+  if (typeof description !== "string") return null;
+  for (const line of description.split(/\r?\n|<br\s*\/?>/i)) {
+    // Labels survive BBCode markup ("[b]Source[/b]:"), so test the text
+    // without the tags but scan the original line for URLs.
+    if (!SOURCE_LABEL.test(line.replace(/\[[^\]]*\]/g, ""))) continue;
+    for (const [, owner, raw] of line.matchAll(
+      /github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/gi,
+    )) {
+      // A /tree/ or /blob/ path is one repo: compare the first two segments.
+      const repo = raw.replace(/\.git$/i, "");
+      const slug = `${owner}/${repo}`.toLowerCase();
+      if (IGNORED_REPOS.has(slug)) continue;
+      return `https://github.com/${owner}/${repo}`;
+    }
+  }
+  return null;
 }
 
 // Merge the sparse dependent rows with their full details, keeping only
@@ -56,6 +84,7 @@ export function toRecords(dependents, details) {
       endorsements: d.endorsements,
       updatedAt: d.updatedAt,
       url: modUrl(GAME_DOMAIN, d.modId),
+      sourceUrl: extractSource(d.description),
     }))
     .sort((a, b) => b.downloads - a.downloads);
 }

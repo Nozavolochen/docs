@@ -10,6 +10,7 @@ import {
   FRAMEWORK_MOD_ID,
   modUrl,
   toRecords,
+  extractSource,
 } from "../../scripts/fetch-framework-mods.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -40,6 +41,11 @@ describe("framework-mods.json", () => {
         expect(mod[field]).toBeGreaterThanOrEqual(0);
       }
       expect(mod.url).toBe(modUrl(GAME_DOMAIN, mod.modId));
+      if (mod.sourceUrl !== null) {
+        expect(mod.sourceUrl).toMatch(
+          /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/,
+        );
+      }
     }
   });
 
@@ -63,6 +69,9 @@ describe("toRecords", () => {
       endorsements: 0,
       updatedAt: "2026-01-01T00:00:00Z",
       status: "published",
+      description:
+        "Built with [url=https://github.com/someone/buildtool]a tool[/url]" +
+        "<br />Source: [url=https://github.com/me/quiet]https://github.com/me/quiet[/url]",
     },
     {
       modId: 2,
@@ -73,6 +82,7 @@ describe("toRecords", () => {
       endorsements: 3,
       updatedAt: "2026-02-01T00:00:00Z",
       status: "published",
+      description: "No repository link here.",
     },
     {
       modId: 3,
@@ -94,5 +104,72 @@ describe("toRecords", () => {
 
   it("drops dependents with no details row", () => {
     expect(toRecords([{ modId: 9 }], details)).toEqual([]);
+  });
+
+  it("carries the labelled source repository", () => {
+    const records = toRecords(dependents, details);
+    expect(records[1].sourceUrl).toBe("https://github.com/me/quiet");
+    expect(records[0].sourceUrl).toBeNull();
+  });
+});
+
+// Real descriptions from Nexus Mods, whose line breaks arrive as <br />.
+describe("extractSource", () => {
+  const biggerGrids =
+    "Built natively on Linux with my " +
+    "[url=https://github.com/SavageCore/AMUMSS/tree/feat/linux-support]AMUMSS Linux port[/url]." +
+    "<br />Source: [url=https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots]" +
+    "https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots[/url]";
+  const introSkip =
+    "[b]Requires:[/b] the [url=https://www.nexusmods.com/games/nomanssky/mods/4700]" +
+    "Nozavolochen Framework[/url]." +
+    "<br />Source: [url=https://github.com/SavageCore/nms-intro-skip]" +
+    "https://github.com/SavageCore/nms-intro-skip[/url]";
+
+  it("takes the labelled link, not an earlier build-tool link", () => {
+    expect(extractSource(biggerGrids)).toBe(
+      "https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots",
+    );
+  });
+
+  it("finds a label below other content", () => {
+    expect(extractSource(introSkip)).toBe(
+      "https://github.com/SavageCore/nms-intro-skip",
+    );
+  });
+
+  it("normalizes a tree path to the repository root", () => {
+    expect(extractSource("Repo: https://github.com/me/mod/tree/main/src")).toBe(
+      "https://github.com/me/mod",
+    );
+  });
+
+  it("accepts markup around the label", () => {
+    expect(extractSource("[b]Source[/b]: https://github.com/me/mod")).toBe(
+      "https://github.com/me/mod",
+    );
+  });
+
+  it("ignores the framework and docs repositories", () => {
+    expect(
+      extractSource("Source: https://github.com/Nozavolochen/framework"),
+    ).toBeNull();
+    expect(
+      extractSource("Repository: https://github.com/Nozavolochen/docs"),
+    ).toBeNull();
+  });
+
+  it("refuses to guess from an unlabelled link", () => {
+    expect(
+      extractSource(
+        "Read more at https://github.com/me/mod and closed-source notes.",
+      ),
+    ).toBeNull();
+  });
+
+  it("returns null when there is no description or no link", () => {
+    expect(extractSource(undefined)).toBeNull();
+    expect(extractSource("")).toBeNull();
+    expect(extractSource("Source: none yet")).toBeNull();
   });
 });
