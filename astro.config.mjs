@@ -30,6 +30,7 @@ export default defineConfig({
           items: [
             { label: "Install", slug: "users/install" },
             { label: "Toggles", slug: "users/toggles" },
+            { label: "Overlay", slug: "users/overlay" },
             { label: "Troubleshooting", slug: "users/troubleshooting" },
           ],
         },
