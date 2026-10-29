@@ -1,9 +1,9 @@
 ---
 title: Spec reference
-description: The six patch operations.
+description: The five patch operations.
 ---
 
-Six patch operations. Anything they cannot express needs a
+Five patch operations. Anything they cannot express needs a
 [new patch operation](https://github.com/Nozavolochen/framework/issues/new?template=feature_request.yml).
 
 - `write-bytes`: masked pattern matches exactly once; verify `expect`
@@ -22,9 +22,6 @@ Six patch operations. Anything they cannot express needs a
   drift is fixed in the mod, not the host.
 - `detour-with-arg-overrides`: single-hit hook on the slot renderer;
   override args only on vanilla metrics, else passthrough.
-- `hook-script`: detour a unique site and run a small program on
-  entry (`on = "enter"`) or exit (`on = "exit"`), with `args` named
-  hook arguments. See below.
 
 Settings: a `[[setting]]` entry has `id`, `kind` (bool, enum,
 float, int, text), `label`, `default`, optional `description` (one
@@ -43,38 +40,10 @@ and `detour-with-arg-overrides` reads
 The overlay lists every loaded mod's settings; edits rewrite the
 `value` line and the file-watch reload applies them.
 
-## Hook scripts
+## Localization
 
-A `hook-script` patch runs `[[patch.step]]` blocks in order against
-16 integer registers (`r0`-`r15`, hook args land in `r0`..) and 8
-float registers (`f0`-`f7`). `[[patch.step.body]]` nests one loop
-body level for `for_each`. Every step validates before touching
-anything; a failed step aborts the script and the game continues,
-so unrepresentable states land on vanilla behavior, never corrupt
-memory. The original function always runs.
-
-Addresses come from `argN` (hook arg), `rN` (register), `site`
-(the matched site), or `image` (host base), plus comma-separated
-`offsets` dereferenced in order (empty means the address itself).
-`read`/`write` take `size` 1/2/4/8 (`sign = true` with size 4 reads
-a signed `i32`); `check`/`check_eq`/`check_ne`/`check_le` abort
-unless the register compares true.
-
-| Step                                   | Keys                                    | Effect                                                                                                                                                                                                |
-| -------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `const`                                | `out`, `value`                          | `r[out] = value`                                                                                                                                                                                      |
-| `setting_int` / `fsetting`             | `out`, `id`                             | live setting value                                                                                                                                                                                    |
-| `enum_index`                           | `out`, `id`                             | setting's choice index                                                                                                                                                                                |
-| `add`, `mul`, `sub`, `and`, `shr`      | `out`, `a`, (`b`/`mask`/`bits`)         | wrapping integer math                                                                                                                                                                                 |
-| `fconst`                               | `out`, `value`                          | float immediate                                                                                                                                                                                       |
-| `fload32` / `fstore32`                 | `out`/`src`, `from`/`to`, `offsets`     | `f32` game memory                                                                                                                                                                                     |
-| `fmul`, `fdiv`, `fadd`, `fmax`, `fmin` | `out`, `a`, `b`                         | float math (`fdiv` aborts on zero)                                                                                                                                                                    |
-| `fround`                               | `out`, `src`                            | round half away from zero                                                                                                                                                                             |
-| `f2i` / `i2f`                          | `out`, `src`                            | float-int conversion                                                                                                                                                                                  |
-| `fcheck_le`                            | `var`, `value`                          | abort unless `f[var] <= value`                                                                                                                                                                        |
-| `call`                                 | `target`, `ret`, `args`                 | call the unique match of `target` pattern (up to 6 comma-separated regs); `r[ret]` takes the return                                                                                                   |
-| `write`                                | `src`, `to`, `offsets`, `size`          | write register to game memory                                                                                                                                                                         |
-| `for_each`                             | `reg`, `base`, `count`, `stride`, `max` | loop `r[reg] = base + i*stride`, aborting unless `count <= max`; `base`/`count` take `from`-style sources with optional `base_offsets`/`count_offsets` (`count_reg` is the register-direct shorthand) |
-| `gstore` / `gload`                     | `ns`, `slot`, `src`/`out`               | mod-namespaced (`ns`) global slots 0-7 shared across a mod's patches; missing reads abort                                                                                                             |
-| `addr`                                 | `out`, `from`                           | the address itself, no dereference                                                                                                                                                                    |
-| `return`                               | `src`                                   | override the detour's return value                                                                                                                                                                    |
+Mod headers and setting rows localize from the same game language
+as the panel chrome. Add `[[mod.text]]` / `[[setting.text]]`
+blocks with a lowercase language code (`lang = "nl"`), plus the
+translated `label` and `description`. Empty fields keep the source
+string. See the full schema in [Mod layout](/docs/authors/layout/).

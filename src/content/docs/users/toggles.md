@@ -24,4 +24,5 @@ id = "example_patch"
 
 Set `[mod] enabled = false` to skip a whole mod. A bool setting
 whose id matches a patch id toggles that patch, in game and live
-from the overlay.
+from the overlay. Both switches are also on the overlay's Mods
+page, so hand-edits are optional.

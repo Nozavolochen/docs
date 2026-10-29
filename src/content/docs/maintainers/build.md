@@ -11,17 +11,18 @@ under Proton. Requires a Rust toolchain with the
 linker is pinned in `loader/.cargo/config.toml`).
 
 ```sh
-make loader   # cross-build xinput9_1_0.dll into loader/dist/
-make check    # verify embedded specs against NMS.exe, read-only
-make dist     # pack the framework release zip
-make clean    # drop build outputs
+make loader     # cross-build xinput9_1_0.dll into loader/dist/
+make dist       # pack the framework release zip
+make assets     # regenerate the Nexus page images
+make lang-check # verify loader/strings/*.json (keys, lengths, codes)
+make check      # lang-check plus the strings unit tests
+make clean      # drop build outputs
 ```
 
-`make check` reads the installed game binary without touching it
-(override with `NMS_EXE=/path/to/NMS.exe`). Every spec must resolve
-before a release: unique pattern hits, one structural survivor for
-`retarget-jmp`, unique anchors and page steps for
-`page-size-override`.
+Spec verification lives with the mods: each mod runs
+`tools/check_specs.py` against its own folder (see the mod
+Makefiles). The framework ships no mods, so there is nothing to
+verify here.
 
 ## Docs
 
