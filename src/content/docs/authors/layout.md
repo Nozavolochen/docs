@@ -52,6 +52,14 @@ expect = "0f 84"         # optional precondition prefix (write-bytes)
 bytes = "66 0f 1f 44 00 00"  # replacement bytes (write-bytes)
 items = 24               # patch-key default (page-size-override);
                          # a setting with the same id overrides it live
+transfer_anchor = "TRANSFER_RECEIVE_DESC"  # page-size-override anchors
+craft_anchor = "PRODUCTS_ALL"              # (defaults as shown)
+slot_format = "SLOT%02d"
+xref_policy = "any-outer-with-scale"  # or "unique" (default):
+                         # unique fails closed unless one xref outer
+                         # applies; any-outer-with-scale tries each
+                         # outer and keeps the single one with a scale
+                         # plan (Forsaken duplicated an anchor xref)
 slot_width = 63          # detour-with-arg-overrides overrides
 cargo_rows = 7
 tech_rows = 4

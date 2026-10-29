@@ -15,7 +15,11 @@ Six patch operations. Anything they cannot express needs a
   candidate must survive.
 - `page-size-override`: string-anchored xref analysis redirects the
   0.125 page-scale loads to hold `1/items`; page steps rewritten.
-  All-or-none with cave guards.
+  All-or-none with cave guards. Anchors (`transfer_anchor`,
+  `craft_anchor`, `slot_format`) and `xref_policy` (`unique` or
+  `any-outer-with-scale`) are per-mod keys with the vanilla defaults;
+  the policy decides how duplicate anchor xrefs resolve, so game
+  drift is fixed in the mod, not the host.
 - `detour-with-arg-overrides`: single-hit hook on the slot renderer;
   override args only on vanilla metrics, else passthrough.
 - `hook-script`: detour a unique site and run a small program on
@@ -33,7 +37,8 @@ but hidden from the panel.
 A bool setting whose id matches a patch id toggles that patch:
 off restores vanilla bytes at boot and live. Tuning keys ride the
 same path per operation: `page-size-override` reads `items`
-(8 stays vanilla) and `detour-with-arg-overrides` reads
+(8 stays vanilla; anchors and `xref_policy` are patch keys only)
+and `detour-with-arg-overrides` reads
 `slot_width`, `cargo_rows`, `tech_rows`, `panel_width`.
 The overlay lists every loaded mod's settings; edits rewrite the
 `value` line and the file-watch reload applies them.
