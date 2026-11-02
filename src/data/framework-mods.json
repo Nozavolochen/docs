@@ -1,27 +1,27 @@
 {
   "frameworkModId": 4700,
   "gameDomain": "nomanssky",
-  "generatedAt": "2026-10-26T12:04:31.060Z",
+  "generatedAt": "2026-11-02T14:29:44.684Z",
   "mods": [
     {
       "modId": 4697,
       "name": "Bigger Item Grids and Smaller Inventory Slots",
       "summary": "See more items on screen in the inventory and Crafting/Transfer pop-ups with optional Intro and Mod warning skip.",
-      "version": "0.2.1",
-      "downloads": 139,
-      "endorsements": 1,
-      "updatedAt": "2026-10-26T00:10:30Z",
+      "version": "0.3.0",
+      "downloads": 362,
+      "endorsements": 4,
+      "updatedAt": "2026-10-29T22:07:15Z",
       "url": "https://www.nexusmods.com/nomanssky/mods/4697",
       "sourceUrl": "https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots"
     },
     {
       "modId": 4707,
-      "name": "Skip Mod Warning",
+      "name": "Mod Warning Skip",
       "summary": "Skips the No Man's Sky \"mods detected\" warning dialog.",
-      "version": "0.1.0",
-      "downloads": 29,
-      "endorsements": 0,
-      "updatedAt": "2026-10-25T17:28:56Z",
+      "version": "0.2.0",
+      "downloads": 226,
+      "endorsements": 4,
+      "updatedAt": "2026-10-29T22:18:00Z",
       "url": "https://www.nexusmods.com/nomanssky/mods/4707",
       "sourceUrl": "https://github.com/SavageCore/nms-mod-warning-skip"
     },
@@ -29,12 +29,34 @@
       "modId": 4706,
       "name": "Intro Skip",
       "summary": "Skips the No Man's Sky startup logos.",
-      "version": "0.1.0",
-      "downloads": 19,
-      "endorsements": 0,
-      "updatedAt": "2026-10-25T17:28:28Z",
+      "version": "0.2.0",
+      "downloads": 182,
+      "endorsements": 2,
+      "updatedAt": "2026-10-29T22:17:38Z",
       "url": "https://www.nexusmods.com/nomanssky/mods/4706",
       "sourceUrl": "https://github.com/SavageCore/nms-intro-skip"
+    },
+    {
+      "modId": 4741,
+      "name": "Nearby Warp Countdown Skip",
+      "summary": "Skips the 10s Initiating Warp countdown on the Forsaken nearby-system warp.",
+      "version": "0.1.0",
+      "downloads": 80,
+      "endorsements": 2,
+      "updatedAt": "2026-10-29T01:28:27Z",
+      "url": "https://www.nexusmods.com/nomanssky/mods/4741",
+      "sourceUrl": "https://github.com/SavageCore/nms-nearby-warp-skip"
+    },
+    {
+      "modId": 4721,
+      "name": "Update Notes Skip",
+      "summary": "Skips the No Man's Sky update notes page on startup.",
+      "version": "0.1.0",
+      "downloads": 23,
+      "endorsements": 0,
+      "updatedAt": "2026-10-28T14:28:50Z",
+      "url": "https://www.nexusmods.com/nomanssky/mods/4721",
+      "sourceUrl": "https://github.com/SavageCore/nms-update-notes-skip"
     }
   ]
 }
