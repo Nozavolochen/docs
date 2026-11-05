@@ -121,7 +121,7 @@ describe("extractSource", () => {
     "<br />Source: [url=https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots]" +
     "https://github.com/SavageCore/bigger-item-grids-and-smaller-inventory-slots[/url]";
   const introSkip =
-    "[b]Requires:[/b] the [url=https://www.nexusmods.com/games/nomanssky/mods/4700]" +
+    "[b]Requires:[/b] the [url=https://www.nexusmods.com/nomanssky/mods/4700]" +
     "Nozavolochen Framework[/url]." +
     "<br />Source: [url=https://github.com/SavageCore/nms-intro-skip]" +
     "https://github.com/SavageCore/nms-intro-skip[/url]";

@@ -49,7 +49,7 @@ export default defineConfig({
             },
             {
               label: "Framework on Nexus Mods",
-              url: "https://www.nexusmods.com/games/nomanssky/mods/4700",
+              url: "https://www.nexusmods.com/nomanssky/mods/4700",
               description: "the release users install as a requirement",
             },
           ],
