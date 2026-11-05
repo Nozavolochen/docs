@@ -46,7 +46,16 @@ The overlay lists every loaded mod's settings; edits rewrite the
 
 A mod folder can carry a DLL that runs its own code: name it as
 `plugin` in `[mod]` and ship it in the same folder, or drop it loose
-into a folder with no `mod.toml`. The loader loads it with
+into a folder with no `mod.toml`.
+
+```toml
+[mod]
+id = "eu.example.my_mod"
+version = "1.0.0"
+plugin = "MyMod.dll"  # optional: a DLL in this mod's folder
+```
+
+The loader loads it with
 `LoadLibraryW` on a short-lived thread after patches apply, so the
 plugin's own `DllMain` starts it the same way a standalone proxy
 would. The name must be a bare `.dll` file name, so it can only point
