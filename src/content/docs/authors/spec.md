@@ -28,7 +28,9 @@ float, int, text), `label`, `default`, optional `description` (one
 explainer line under the row), optional `value` (the current
 choice), optional `min`/`max`/`step`, and `choices` (a `["a", "b"]`
 list) for enum. `[mod]` takes optional `label` and `description`
-(the header byline); a mod without settings is applied normally
+(the header byline) and optional `plugin` (a `.dll` file name in the
+mod's own folder, loaded after patches apply; `enabled = false`
+skips it); a mod without settings is applied normally
 but hidden from the panel.
 
 A bool setting whose id matches a patch id toggles that patch:
@@ -39,6 +41,17 @@ and `detour-with-arg-overrides` reads
 `slot_width`, `cargo_rows`, `tech_rows`, `panel_width`.
 The overlay lists every loaded mod's settings; edits rewrite the
 `value` line and the file-watch reload applies them.
+
+## Native plugins
+
+A mod folder can carry a DLL that runs its own code: name it as
+`plugin` in `[mod]` and ship it in the same folder, or drop it loose
+into a folder with no `mod.toml`. The loader loads it with
+`LoadLibraryW` on a short-lived thread after patches apply, so the
+plugin's own `DllMain` starts it the same way a standalone proxy
+would. The name must be a bare `.dll` file name, so it can only point
+inside the mod's own folder. Results land at the end of
+`nozavolochen.log` under `plugins`.
 
 ## Localization
 

@@ -23,4 +23,8 @@ What each line means:
   usually because a game update shifted the pattern. Update the mod.
 - `<id>: disabled in config` - the mod or patch is toggled off in
   `mod.toml`.
+- `<id>: plugin <name> queued` - a native plugin DLL from the mod's
+  folder will load after patches apply. `plugin NOT LOADED` instead
+  means the name is not a bare `.dll` file name or the file is
+  missing; a folder with `enabled = false` skips its plugin silently.
 - `result: <done>/<total> applied` - the final tally.

@@ -9,12 +9,15 @@ GAMEDATA/MODS/<Mod>/UI/...  mod.lua
 ```
 
 `mod.toml` carries `[mod]` metadata (`id`, `version`, `label`,
-`description`, `enabled`), `[[setting]]` overlay rows, and one
+`description`, `enabled`, `plugin`), `[[setting]]` overlay rows, and one
 `[[patch]]` per site. `[[mod.text]]` / `[[setting.text]]` blocks
 localize the header and rows (see Spec reference). A bool setting
 whose id matches a patch id
 toggles that patch. Static MBINs ship alongside as plain files;
-they need no framework support.
+they need no framework support. A mod can also ship a native DLL:
+either named as `plugin` in `[mod]` (it follows `enabled`), or
+dropped loose into a mod folder with no `mod.toml` (every `.dll`
+there is loaded).
 
 Full schema:
 
@@ -27,6 +30,9 @@ description = "What the mod does."  # header byline (mods without
                                   # settings still apply, but stay out
                                   # of the overlay)
 enabled = true
+plugin = "ExampleMod.dll"      # optional: native DLL in this mod's
+                               # folder, loaded after patches apply;
+                               # follows enabled
 
 [[setting]]
 id = "second-patch"              # matches a patch id: toggles it

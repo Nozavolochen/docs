@@ -19,7 +19,7 @@ The [framework download](https://www.nexusmods.com/games/nomanssky/mods/4700?tab
 ## Mods
 
 Each mod file is an archive with a bare mod folder carrying its
-`mod.toml` (plus any static files from [AMUMSS](https://github.com/HolterPhylo/AMUMSS)).
+`mod.toml` (plus any static files from [AMUMSS](https://github.com/HolterPhylo/AMUMSS), plus a plugin DLL if the mod runs native code).
 
 #### Installing with a mod manager
 
