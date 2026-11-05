@@ -14,10 +14,11 @@ GAMEDATA/MODS/<Mod>/UI/...  mod.lua
 localize the header and rows (see Spec reference). A bool setting
 whose id matches a patch id
 toggles that patch. Static MBINs ship alongside as plain files;
-they need no framework support. A mod can also ship a native DLL:
-either named as `plugin` in `[mod]` (it follows `enabled`), or
-dropped loose into a mod folder with no `mod.toml` (every `.dll`
-there is loaded).
+they need no framework support. A mod can also ship a native plugin: either named as `plugin`
+in `[mod]` (a `.dll`, or an `.asi` with `InitializeASI`; it follows
+`enabled`), or dropped loose into a mod folder with no `mod.toml`
+(every `.dll`/`.asi` there is loaded). ASI-style mods can also drop
+files straight into the shared `Binaries/plugins/` folder.
 
 Full schema:
 

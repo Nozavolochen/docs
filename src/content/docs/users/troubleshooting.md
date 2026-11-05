@@ -25,6 +25,7 @@ What each line means:
   `mod.toml`.
 - `<id>: plugin <name> queued` - a native plugin DLL from the mod's
   folder will load after patches apply. `plugin NOT LOADED` instead
-  means the name is not a bare `.dll` file name or the file is
+  means the name is not a bare `.dll`/`.asi` file name or the file is
   missing; a folder with `enabled = false` skips its plugin silently.
+  An `.asi` without an `InitializeASI` export is unloaded again.
 - `result: <done>/<total> applied` - the final tally.

@@ -52,8 +52,15 @@ into a folder with no `mod.toml`.
 [mod]
 id = "eu.example.my_mod"
 version = "1.0.0"
-plugin = "MyMod.dll"  # optional: a DLL in this mod's folder
+plugin = "MyMod.dll"  # optional: a native plugin in this mod's
+                      # folder (.dll, or .asi with InitializeASI)
 ```
+
+An `.asi` plugin starts through its `InitializeASI` export (the same
+entry point an ASI loader calls); a missing export is logged and the
+module unloaded. Drop loose files instead into a folder with no
+`mod.toml`, or into the shared `Binaries/plugins/` folder
+(ASI-loader style, no `enabled` gate there).
 
 The loader loads it with
 `LoadLibraryW` on a short-lived thread after patches apply, so the
