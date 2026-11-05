@@ -81,7 +81,13 @@ export default defineConfig({
         {
           label: "Users",
           items: [
-            { label: "Install", slug: "users/install" },
+            {
+              label: "Install",
+              items: [
+                { label: "Framework and mods", slug: "users/install" },
+                { label: "Amethyst", slug: "users/amethyst" },
+              ],
+            },
             { label: "Toggles", slug: "users/toggles" },
             { label: "Overlay", slug: "users/overlay" },
             { label: "Troubleshooting", slug: "users/troubleshooting" },
