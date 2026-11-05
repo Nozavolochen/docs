@@ -3,8 +3,15 @@ title: Overlay
 description: Adjust mod settings in game.
 ---
 
-Press backtick (`` ` ``) in game to open the panel. Press
-it again, or Escape, to close. Tab switches between the two pages.
+Press the grave key (the key left of 1; backtick `` ` `` on US
+layouts) in game to open the panel. Press it again, or Escape, to
+close. Tab switches between the two pages. The key follows physical
+position, not character, so it is the same key on non-US layouts.
+While a Steam overlay chat (or any other window) is in front, the
+key does not toggle the panel. The panel also closes itself when
+the Steam overlay opens, and swallows nothing while it is up.
+Shift+Tab always passes through to Steam (it does not switch
+pages); plain Tab switches pages.
 
 ## Settings
 
